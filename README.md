@@ -1,5 +1,9 @@
 # Federated Averaging from Scratch: FashionMNIST-Style Proxy
 
+![Federated learning overview](assets/federated_learning_overview.png)
+
+Figure: clients train local models, upload updates, and the server aggregates them into a new global model.
+
 ![Project overview](assets/readme_project_overview.png)
 
 Figure: from-scratch federated averaging pipeline for multiclass classification.
