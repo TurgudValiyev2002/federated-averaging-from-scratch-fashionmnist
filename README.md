@@ -1,5 +1,10 @@
 # Federated Averaging from Scratch: FashionMNIST-Style Proxy
 
+![Project overview](assets/readme_project_overview.png)
+
+Figure: from-scratch federated averaging pipeline for multiclass classification.
+
+
 ## Motivation
 
 Federated Averaging is easier to understand when we implement the training loop ourselves. This project builds the main FedAvg steps with NumPy rather than hiding them inside a deep learning framework.
