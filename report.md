@@ -1,29 +1,25 @@
-# Report: Federated Averaging from Scratch
+# One-Page Report: Real FashionMNIST FedAvg
 
 ## Motivation
 
-We implemented FedAvg from scratch to understand the algorithm instead of only using a library.
+The previous project used sklearn digits as a proxy for FashionMNIST. We replaced it with real FashionMNIST and compared IID versus non-IID client splits.
 
 ## Dataset
 
-The experiment used the scikit-learn digits dataset as a local image-classification proxy. It is not FashionMNIST.
+We used 6,000 FashionMNIST training images and 2,000 test images across 10 classes. Images are 28x28 grayscale.
 
 ## Method
 
-Six clients trained local multiclass logistic regression models with gradient descent. The server averaged their parameters after each round.
-
-## Hyperparameters
-
-We used 6 clients, 7 rounds, 2 local epochs, learning rate 0.2, and a 20 percent test split.
+We implemented multiclass logistic regression and FedAvg from scratch. Six clients trained locally for two epochs per round. The server averaged client weights by sample count.
 
 ## Results
 
-Test accuracy improved from 0.8306 in round 1 to 0.9000 in round 7.
+In the IID split, test accuracy improved from 0.4400 in round 1 to 0.6855 in round 10. In the non-IID split, accuracy started at 0.1000 and reached 0.6470 by round 10.
 
 ## Interpretation
 
-The global model improved as clients repeatedly trained locally and shared averaged parameters. The steady increase shows that the simple FedAvg loop is working.
+Non-IID training is harder because each client sees only part of the label space. This causes biased local updates and slower global learning. FedAvg still improves, but the non-IID curve is less stable.
 
 ## Conclusion
 
-The project shows the core FedAvg training loop clearly. A stronger version should use real FashionMNIST and non-IID partitions.
+The project now uses real FashionMNIST and demonstrates the central federated learning problem: client data heterogeneity changes training behavior.

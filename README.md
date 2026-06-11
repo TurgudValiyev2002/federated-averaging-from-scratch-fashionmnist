@@ -1,4 +1,4 @@
-# Federated Averaging from Scratch: FashionMNIST-Style Proxy
+# Federated Averaging from Scratch on FashionMNIST
 
 ![Federated learning overview](assets/federated_learning_overview.png)
 
@@ -6,63 +6,81 @@ Figure: clients train local models, upload updates, and the server aggregates th
 
 ![Project overview](assets/readme_project_overview.png)
 
-Figure: from-scratch federated averaging pipeline for multiclass classification.
-
+Figure: real FashionMNIST images are split across clients, trained locally, and aggregated with FedAvg.
 
 ## Motivation
 
-Federated Averaging is easier to understand when we implement the training loop ourselves. This project builds the main FedAvg steps with NumPy rather than hiding them inside a deep learning framework.
+Federated Averaging is more meaningful when tested on a real dataset and compared under IID and non-IID client splits. The previous version used sklearn digits as a proxy. This version uses real FashionMNIST.
 
 ## Project Goal
 
-We implemented multiclass logistic regression from scratch and trained it with Federated Averaging across multiple clients.
+We implemented FedAvg from scratch for multiclass logistic regression and compared IID versus non-IID clients on real FashionMNIST.
 
 ## Dataset
 
-We used the scikit-learn digits dataset as a small FashionMNIST-style image classification proxy. It is not FashionMNIST, but it allows the federated training logic to run locally without downloads.
+We used the real FashionMNIST IDX files from Zalando Research.
+
+- Training subset: 6,000 images
+- Test subset: 2,000 images
+- Classes: 10 fashion categories
+- Image size: 28x28 grayscale
+- Clients: 6
+
+The raw dataset is downloaded into `data/`, which is ignored by Git.
 
 ## Tools
 
-Python, NumPy, pandas, scikit-learn, and matplotlib.
+Python, NumPy, pandas, matplotlib, and a from-scratch softmax classifier.
 
 ## Method
 
-The training data was split across six clients. Each client ran local gradient descent on its data. The server averaged client weights by client dataset size after each round.
+Each client trains a local softmax classifier for two local epochs. The server averages client weights by client sample count. We tested:
+
+- IID split: every client has all 10 classes
+- Non-IID split: clients see only a subset of classes
 
 ## Hyperparameters
 
-- Clients: 6
-- Federated rounds: 7
-- Local epochs per round: 2
-- Learning rate: 0.2
-- Test split: 20 percent
-- Model: multiclass logistic regression from scratch
+| Setting | Value |
+|---|---:|
+| Federated rounds | 10 |
+| Local epochs | 2 |
+| Learning rate | 0.35 |
+| Clients | 6 |
+| Train images | 6,000 |
+| Test images | 2,000 |
 
 ## Results
 
-| Round | Test Accuracy |
-|---:|---:|
-| 1 | 0.8306 |
-| 2 | 0.8417 |
-| 3 | 0.8583 |
-| 4 | 0.8722 |
-| 5 | 0.8833 |
-| 6 | 0.8917 |
-| 7 | 0.9000 |
+| Round | IID Accuracy | Non-IID Accuracy |
+|---:|---:|---:|
+| 1 | 0.4400 | 0.1000 |
+| 5 | 0.5410 | 0.2745 |
+| 10 | 0.6855 | 0.6470 |
 
-Results are saved in `results/fedavg_metrics.csv`, `results/client_sizes.csv`, and `results/accuracy_by_round.png`.
+![Accuracy by round](results/accuracy_by_round.png)
+
+![FashionMNIST examples](results/fashionmnist_examples.png)
+
+Result files:
+
+- `results/fedavg_metrics.csv`
+- `results/client_sizes.csv`
+- `results/experiment_setup.csv`
 
 ## Interpretation
 
-Accuracy improved steadily from round 1 to round 7. This shows that the global model benefits from repeated local training and server averaging under these settings.
+IID clients learn faster because each client sees all classes. Non-IID clients start much worse because each client only observes part of the label space, so local updates are biased toward local classes.
+
+By round 10, non-IID accuracy improves to 64.70%, but it remains slightly below IID accuracy at 68.55%. The curve is also less stable. This is a realistic federated learning issue.
 
 ## Conclusion
 
-The project demonstrates FedAvg from scratch. The next step should use real FashionMNIST and compare IID versus non-IID client splits.
+This project now uses real FashionMNIST and shows why non-IID data matters. FedAvg can still learn, but client label imbalance slows and destabilizes training.
 
 ## How To Run
 
 ```bash
 pip install -r requirements.txt
-python 1_fedavg_from_scratch.py
+python 1_real_fashionmnist_fedavg.py
 ```

@@ -1,0 +1,8 @@
+metric,value
+train_images,6000.0
+test_images,2000.0
+classes,10.0
+clients,6.0
+rounds,10.0
+local_epochs,2.0
+learning_rate,0.35
