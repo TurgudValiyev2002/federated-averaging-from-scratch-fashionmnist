@@ -10,7 +10,7 @@ Figure: real FashionMNIST images are split across clients, trained locally, and 
 
 ## Motivation
 
-Federated Averaging is more meaningful when tested on a real dataset and compared under IID and non-IID client splits. The previous version used sklearn digits as a proxy. This version uses real FashionMNIST.
+Federated Averaging is more meaningful when tested on a real dataset and compared under IID and non-IID client splits. This project uses real FashionMNIST to show how client label imbalance changes training behavior.
 
 ## Project Goal
 
@@ -76,7 +76,7 @@ By round 10, non-IID accuracy improves to 64.70%, but it remains slightly below 
 
 ## Conclusion
 
-This project now uses real FashionMNIST and shows why non-IID data matters. FedAvg can still learn, but client label imbalance slows and destabilizes training.
+This project uses real FashionMNIST and shows why non-IID data matters. FedAvg can still learn, but client label imbalance slows and destabilizes training.
 
 ## How To Run
 

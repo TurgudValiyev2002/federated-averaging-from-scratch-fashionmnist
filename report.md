@@ -2,7 +2,7 @@
 
 ## Motivation
 
-The previous project used sklearn digits as a proxy for FashionMNIST. We replaced it with real FashionMNIST and compared IID versus non-IID client splits.
+We use real FashionMNIST and compare IID versus non-IID client splits.
 
 ## Dataset
 
@@ -22,4 +22,4 @@ Non-IID training is harder because each client sees only part of the label space
 
 ## Conclusion
 
-The project now uses real FashionMNIST and demonstrates the central federated learning problem: client data heterogeneity changes training behavior.
+The project uses real FashionMNIST and demonstrates the central federated learning problem: client data heterogeneity changes training behavior.
